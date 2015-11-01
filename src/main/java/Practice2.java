@@ -48,10 +48,13 @@ public class Practice2 {
                            Context context
         ) throws IOException, InterruptedException {
             int sum = 0;
+            int count = 0;
             for (IntWritable val : values) {
                 sum += val.get();
+                count++;
             }
-            result.set(sum);
+            //To get the mean
+            result.set(sum/count);
             context.write(key, result);
         }
     }
