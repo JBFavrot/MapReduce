@@ -1,6 +1,7 @@
 /**
  * Second Practice
  * Jean-Baptiste Favrot
+ * TODO : reducer not good fot this practice
  */
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -35,7 +36,7 @@ public class Practice2 {
                 String[] array;
                 array = line.split(";");
                 word.set(array[1]);
-                context.write(word, new IntWritable(Integer.parseInt(array[2])));
+                context.write(word, new IntWritable(Integer.parseInt(array[3])));
             }
         }
     }
@@ -59,8 +60,8 @@ public class Practice2 {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf, "word count");
-        job.setJarByClass(Practice1.class);
-        job.setMapperClass(Practice1.TokenizerMapper.class);
+        job.setJarByClass(Practice2.class);
+        job.setMapperClass(Practice2.TokenizerMapper.class);
         job.setCombinerClass(IntSumReducer.class);
         job.setReducerClass(IntSumReducer.class);
         job.setOutputKeyClass(Text.class);

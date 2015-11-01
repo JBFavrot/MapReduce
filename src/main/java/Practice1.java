@@ -23,20 +23,11 @@ location wealth.
 public class Practice1 {
     public static class TokenizerMapper
             extends Mapper<Object, Text, Text, IntWritable>{
-        private Text word = new Text();
 
         public void map(Object key, Text value, Context context
         ) throws IOException, InterruptedException {
-            StringTokenizer itr = new StringTokenizer(value.toString());
-
-            while (itr.hasMoreTokens()) {
-                word.set(itr.nextToken());
-                String line = word.toString();
-                String[] array;
-                array = line.split(";");
-                word.set(array[1]);
-                context.write(word, new IntWritable(Integer.parseInt(array[2])));
-            }
+            String[] data = value.toString().split(";");
+            context.write(new Text(data[0]), new IntWritable(Integer.parseInt(data[2])));
         }
     }
 
