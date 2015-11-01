@@ -4,7 +4,6 @@
  * TODO : reducer not good fot this practice
  */
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -16,29 +15,29 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-/*
-Using MapReduce, please compute for each location, the sum of the banking accounts to determine
-location wealth.
-*/
+
 
 public class Practice2 {
     public static class TokenizerMapper
             extends Mapper<Object, Text, Text, IntWritable>{
-        private Text word = new Text();
 
         public void map(Object key, Text value, Context context
         ) throws IOException, InterruptedException {
-            StringTokenizer itr = new StringTokenizer(value.toString());
-
-            while (itr.hasMoreTokens()) {
-                word.set(itr.nextToken());
-                String line = word.toString();
-                String[] array;
-                array = line.split(";");
-                word.set(array[1]);
-                context.write(word, new IntWritable(Integer.parseInt(array[3])));
-            }
+            String[] data = value.toString().split(";");
+            context.write(new Text(Practice2.AgeClassConverter(Integer.parseInt(data[1]))),new IntWritable(Integer.parseInt(data[3])));
         }
+    }
+
+    private static String AgeClassConverter(Integer age)
+    {
+        if(age<5) return "0";
+        if(age<12) return "1";
+        if(age<17) return "2";
+        if(age<25) return "3";
+        if(age<35) return "4";
+        if(age<45) return "5";
+        if(age<60) return "6";
+        return "7";
     }
 
     public static class IntSumReducer

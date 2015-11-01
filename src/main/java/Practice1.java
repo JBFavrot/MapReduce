@@ -3,7 +3,6 @@
  * Jean-Baptiste Favrot
  */
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -15,11 +14,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-/*
-Using MapReduce, please compute for each location, the sum of the banking accounts to determine
-location wealth.
-*/
-
+//Mapper for the first practice
 public class Practice1 {
     public static class TokenizerMapper
             extends Mapper<Object, Text, Text, IntWritable>{
@@ -27,6 +22,9 @@ public class Practice1 {
         public void map(Object key, Text value, Context context
         ) throws IOException, InterruptedException {
             String[] data = value.toString().split(";");
+
+            //Writes (cityName, accountBalance)
+
             context.write(new Text(data[0]), new IntWritable(Integer.parseInt(data[2])));
         }
     }
